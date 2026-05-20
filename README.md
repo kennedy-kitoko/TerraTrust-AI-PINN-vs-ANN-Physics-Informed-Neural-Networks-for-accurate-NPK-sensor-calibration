@@ -1,0 +1,1 @@
+# PINN-NPK-Physics-Informed-neutral-network-Calibration-for-Smart-Soil-Sensing-TerraTrust-
