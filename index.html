@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TerraTrust AI — Outil de confiance pour l'agriculture intelligente</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --soil:#3D2B1F; --soil-light:#6B4C3B;
+  --green:#2D6A4F; --green-light:#52B788; --green-pale:#D8F3DC; --green-dark:#1B4332;
+  --amber:#D4A017; --amber-light:#F4C842;
+  --red:#C1121F; --red-light:#FF6B6B;
+  --blue:#1B4F72;
+  --page:#FAFAF7; --text:#1A1A18; --muted:#6B6B60;
+  --border:#E0DED5; --white:#FFFFFF; --card:#F5F4EF;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--page);color:var(--text);line-height:1.7;font-size:15px}
+body.zh{font-family:'Noto Sans SC','DM Sans',sans-serif}
+
+/* === LANGUAGE SWITCHER === */
+.lang-bar{position:fixed;top:16px;right:16px;z-index:1000;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:30px;padding:6px;box-shadow:0 4px 12px rgba(0,0,0,0.1);display:flex;gap:4px}
+.lang-btn{border:none;background:transparent;padding:6px 14px;border-radius:20px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:1px;cursor:pointer;color:var(--muted);transition:all 0.2s}
+.lang-btn:hover{color:var(--green)}
+.lang-btn.active{background:var(--green);color:white}
+
+/* === HERO === */
+.hero{background:linear-gradient(160deg,var(--soil) 0%,var(--green) 60%,#1a472a 100%);color:white;padding:90px 48px 70px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 50%,rgba(82,183,136,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(212,160,23,0.1) 0%,transparent 40%)}
+.hero-content{position:relative;max-width:1200px;margin:0 auto}
+.hero-tag{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:24px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,58px);font-weight:900;line-height:1.1;max-width:900px;margin-bottom:20px}
+.hero h1 .accent{color:var(--amber-light)}
+.hero-sub{font-size:18px;opacity:0.85;max-width:680px;font-weight:300;margin-bottom:28px}
+.hero-badges{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.hero-badge{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);padding:8px 16px;border-radius:20px;font-size:13px;font-family:'DM Mono',monospace}
+
+/* === MAIN === */
+.container{max-width:1200px;margin:0 auto;padding:0 48px}
+.section{padding:64px 0;border-bottom:1px solid var(--border)}
+.section-num{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:6px 14px;border-radius:4px;margin-bottom:18px}
+.section-num.green{background:var(--green-pale);color:var(--green-dark)}
+.section-num.amber{background:#FFF7DC;color:#8B6914}
+.section-num.red{background:#FFE5E5;color:var(--red)}
+.section-num.blue{background:#E5F0FA;color:var(--blue)}
+.section-num.soil{background:#EBE2D9;color:var(--soil)}
+h2{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,40px);font-weight:700;line-height:1.2;margin-bottom:24px;color:var(--soil)}
+h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin:32px 0 14px;color:var(--green-dark)}
+h4{font-size:16px;font-weight:600;margin-bottom:8px;color:var(--text)}
+p{margin-bottom:14px;color:#2a2a26}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:var(--soil-light)}
+
+.lead{font-size:18px;line-height:1.75;color:#2a2a26;font-weight:400;max-width:780px;margin-bottom:28px}
+
+/* === CALLOUTS === */
+.callout{padding:18px 22px;margin:22px 0;border-radius:8px;font-size:14.5px;border-left:4px solid}
+.callout.green{background:var(--green-pale);border-color:var(--green)}
+.callout.amber{background:#FFF7DC;border-color:var(--amber)}
+.callout.red{background:#FFE5E5;border-color:var(--red)}
+.callout.blue{background:#E5F0FA;border-color:var(--blue)}
+.callout.soil{background:#EFE5DA;border-color:var(--soil)}
+
+/* === CARDS === */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:24px 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px}
+.card-icon{font-size:28px;margin-bottom:10px;display:block}
+.card h4{margin-bottom:8px;color:var(--green-dark)}
+.card p{font-size:13.5px;color:var(--muted);margin:0}
+
+/* === STAT BLOCKS === */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:24px 0}
+.stat{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:18px;text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:34px;font-weight:900;color:var(--green);line-height:1}
+.stat-num.amber{color:var(--amber)}
+.stat-num.red{color:var(--red)}
+.stat-label{font-size:12px;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:1px}
+
+/* === IMAGE PLACEHOLDERS === */
+.img-placeholder{background:linear-gradient(135deg,var(--green-pale) 0%,#EFE5DA 100%);border:2px dashed var(--green);border-radius:10px;padding:48px 24px;text-align:center;margin:20px 0;color:var(--green-dark)}
+.img-placeholder .icon{font-size:48px;display:block;margin-bottom:12px;opacity:0.5}
+.img-placeholder h4{color:var(--green-dark);margin-bottom:6px}
+.img-placeholder p{font-size:13px;color:var(--green-dark);opacity:0.8;margin:0}
+
+/* === ARCHITECTURE BOXES === */
+.arch{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}
+.arch-box{padding:24px;border-radius:10px;border:1px solid var(--border)}
+.arch-box.edge{background:var(--green-pale);border-color:var(--green)}
+.arch-box.cloud{background:#E5F0FA;border-color:var(--blue)}
+.arch-box h4{font-size:18px;margin-bottom:12px}
+.arch-box ul{list-style:none;padding:0}
+.arch-box li{padding:8px 0 8px 24px;position:relative;font-size:14px;border-bottom:1px solid rgba(0,0,0,0.05)}
+.arch-box li::before{content:'→';position:absolute;left:0;font-weight:bold}
+.arch-box.edge li::before{color:var(--green)}
+.arch-box.cloud li::before{color:var(--blue)}
+.arch-box li:last-child{border:none}
+
+/* === TABLES === */
+.table-wrap{overflow-x:auto;margin:22px 0}
+table{width:100%;border-collapse:collapse;background:var(--white);border-radius:8px;overflow:hidden;font-size:14px}
+th{background:var(--green-dark);color:white;padding:12px;text-align:left;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:0.5px}
+td{padding:12px;border-bottom:1px solid var(--border)}
+tr:last-child td{border:none}
+tr:nth-child(even){background:#FAFAF7}
+
+/* === REFERENCES === */
+.ref{background:var(--card);padding:18px 22px;border-radius:8px;margin:14px 0;border-left:3px solid var(--green)}
+.ref-tag{display:inline-block;background:var(--green);color:white;font-family:'DM Mono',monospace;font-size:10px;padding:3px 10px;border-radius:3px;margin-bottom:8px;letter-spacing:1px}
+.ref h4{font-size:14.5px;margin-bottom:4px}
+.ref .authors{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:8px}
+.ref p{font-size:13.5px;margin:0;color:#3a3a36}
+
+/* === LINKS === */
+a{color:var(--green);text-decoration:underline;text-underline-offset:3px}
+a:hover{color:var(--green-dark)}
+.btn{display:inline-block;background:var(--green);color:white !important;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600;font-size:14px;transition:all 0.2s}
+.btn:hover{background:var(--green-dark);transform:translateY(-1px)}
+.btn.amber{background:var(--amber);color:var(--soil) !important}
+.btn.amber:hover{background:var(--amber-light)}
+
+/* === BOX TERRA AI HIGHLIGHT === */
+.box-feature{background:linear-gradient(135deg,var(--green-dark) 0%,var(--green) 100%);color:white;padding:48px;border-radius:16px;margin:32px 0}
+.box-feature h3{color:var(--amber-light);font-size:28px;margin-bottom:18px}
+.box-feature p{color:rgba(255,255,255,0.9)}
+.box-feature .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:24px}
+.box-feature .feat{background:rgba(255,255,255,0.1);padding:18px;border-radius:8px;border:1px solid rgba(255,255,255,0.2)}
+.box-feature .feat h4{color:var(--amber-light);font-size:15px;margin-bottom:6px}
+.box-feature .feat p{font-size:13.5px;color:rgba(255,255,255,0.85);margin:0}
+
+/* === FOOTER === */
+.footer{background:var(--soil);color:rgba(255,255,255,0.7);padding:48px;text-align:center}
+.footer h3{color:white;font-size:20px;margin-bottom:14px}
+.footer a{color:var(--amber-light)}
+.footer .social{margin:18px 0}
+.footer .social a{display:inline-block;background:rgba(255,255,255,0.1);padding:10px 20px;border-radius:6px;margin:0 6px;text-decoration:none;font-weight:600}
+.footer .small{font-size:12px;margin-top:24px;opacity:0.6}
+
+/* === LANGUAGE VISIBILITY === */
+[data-lang]:not(.lang-active){display:none !important}
+
+/* responsive */
+@media(max-width:780px){
+  .arch{grid-template-columns:1fr}
+  .hero,.container{padding-left:24px;padding-right:24px}
+  .hero{padding-top:80px}
+  .box-feature{padding:28px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LANGUAGE SWITCHER ===== -->
+<div class="lang-bar">
+  <button class="lang-btn active" data-lang-btn="fr">FR</button>
+  <button class="lang-btn" data-lang-btn="en">EN</button>
+  <button class="lang-btn" data-lang-btn="zh">中文</button>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-tag" data-lang="fr">IA & Science de la simulation · Projet de classe · 21 mai 2026</span>
+    <span class="hero-tag" data-lang="en">AI & Simulation Science · Class Project · May 21, 2026</span>
+    <span class="hero-tag" data-lang="zh">人工智能与仿真科学 · 课程项目 · 2026年5月21日</span>
+
+    <h1 data-lang="fr">TerraTrust <span class="accent">AI</span><br>L'outil de confiance pour la décision agricole</h1>
+    <h1 data-lang="en">TerraTrust <span class="accent">AI</span><br>The trust tool for agricultural decisions</h1>
+    <h1 data-lang="zh">TerraTrust <span class="accent">AI</span><br>农业决策可信工具</h1>
+
+    <p class="hero-sub" data-lang="fr">Un capteur à 50 USD, un réseau de neurones contraint par la physique, et une honnêteté méthodologique : transformer l'estimation NPK approximative en aide à la décision continue pour les agriculteurs africains.</p>
+    <p class="hero-sub" data-lang="en">A $50 sensor, a physics-informed neural network, and methodological honesty: turning approximate NPK estimation into continuous decision support for African farmers.</p>
+    <p class="hero-sub" data-lang="zh">一个50美元的传感器,一个受物理约束的神经网络,以及方法论上的诚实:将近似的NPK估算转化为非洲农民的持续决策支持。</p>
+
+    <div class="hero-badges">
+      <span class="hero-badge">VEMSEE SN-3002</span>
+      <span class="hero-badge">ESP32-S3 Edge AI</span>
+      <span class="hero-badge">PINN + MC Dropout</span>
+      <span class="hero-badge">Kohlrausch's Law</span>
+      <span class="hero-badge" data-lang="fr">3 publications IEEE/Elsevier 2025</span>
+      <span class="hero-badge" data-lang="en">3 IEEE/Elsevier papers 2025</span>
+      <span class="hero-badge" data-lang="zh">3 篇 IEEE/Elsevier 2025 论文</span>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+<!-- ===== 0. PROMESSE HONNÊTE ===== -->
+<div class="section">
+  <span class="section-num green" data-lang="fr">00 — La promesse, honnêtement</span>
+  <span class="section-num green" data-lang="en">00 — The promise, honestly</span>
+  <span class="section-num green" data-lang="zh">00 — 诚实的承诺</span>
+
+  <h2 data-lang="fr">TerraTrust AI ne remplace pas votre laboratoire. Il vous dit quand y retourner.</h2>
+  <h2 data-lang="en">TerraTrust AI does not replace your lab. It tells you when to go back.</h2>
+  <h2 data-lang="zh">TerraTrust AI 不取代实验室,它告诉您何时该返回实验室。</h2>
+
+  <p class="lead" data-lang="fr">Entre deux analyses laboratoire, l'agriculteur navigue à l'aveugle. TerraTrust AI fournit une <strong>estimation continue NPK</strong> à partir d'un capteur abordable, et signale automatiquement <strong>quand le modèle perd confiance</strong> — quand il faut donc programmer une nouvelle analyse de référence. Précision modeste, mais utile. Suivi temporel impossible avec des analyses ponctuelles. Économies réelles. Promesses tenues.</p>
+
+  <p class="lead" data-lang="en">Between two lab analyses, farmers fly blind. TerraTrust AI provides <strong>continuous NPK estimation</strong> from an affordable sensor, and automatically signals <strong>when the model loses confidence</strong> — when a new reference analysis is needed. Modest precision, but useful. Time-series tracking impossible with point measurements. Real savings. Honest promises.</p>
+
+  <p class="lead" data-lang="zh">在两次实验室分析之间,农民只能盲目操作。TerraTrust AI 通过经济实惠的传感器提供<strong>连续的 NPK 估算</strong>,并在<strong>模型失去信心时自动发出信号</strong>——此时需要安排新的参考分析。精度适中但实用。时间序列追踪是点测量无法实现的。真实节省。诚实承诺。</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">~±12</div>
+      <div class="stat-label" data-lang="fr">mg/kg de précision NPK</div>
+      <div class="stat-label" data-lang="en">mg/kg NPK precision</div>
+      <div class="stat-label" data-lang="zh">mg/kg NPK 精度</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">5 min</div>
+      <div class="stat-label" data-lang="fr">Fréquence de mesure</div>
+      <div class="stat-label" data-lang="en">Measurement frequency</div>
+      <div class="stat-label" data-lang="zh">测量频率</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num amber">~120$</div>
+      <div class="stat-label" data-lang="fr">Coût matériel total</div>
+      <div class="stat-label" data-lang="en">Total hardware cost</div>
+      <div class="stat-label" data-lang="zh">硬件总成本</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2-3</div>
+      <div class="stat-label" data-lang="fr">Analyses labo/saison<br>(au lieu de 8-12)</div>
+      <div class="stat-label" data-lang="en">Lab analyses/season<br>(instead of 8-12)</div>
+      <div class="stat-label" data-lang="zh">每季实验室分析<br>(原本 8-12 次)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 1. LE PROBLÈME ===== -->
+<div class="section">
+  <span class="section-num red" data-lang="fr">01 — Le problème</span>
+  <span class="section-num red" data-lang="en">01 — The problem</span>
+  <span class="section-num red" data-lang="zh">01 — 问题</span>
+
+  <h2 data-lang="fr">Pourquoi des données N-P-K précises sont vitales — et pourquoi l'agriculteur africain n'en a pas</h2>
+  <h2 data-lang="en">Why accurate N-P-K data matters — and why African farmers don't have it</h2>
+  <h2 data-lang="zh">为什么精确的氮磷钾数据至关重要 - 以及为什么非洲农民无法获得</h2>
+
+  <div data-lang="fr">
+    <p>L'azote (N), le phosphore (P) et le potassium (K) déterminent la croissance, le rendement et la santé des cultures. Mais leur dosage exact reste invisible pour la majorité des agriculteurs africains. Une analyse de laboratoire coûte 30 à 80 USD, prend 1 à 2 semaines, et reflète l'état du sol à un seul instant — alors que le sol évolue chaque jour sous l'effet des pluies, de l'absorption par les plantes, de la minéralisation. Entre deux analyses, l'agriculteur navigue à l'aveugle.</p>
+    <p>Deux échecs en résultent, tous deux coûteux. La <strong>sous-fertilisation</strong> donne des feuilles jaunes, une croissance lente, des rendements faibles. La <strong>sur-fertilisation</strong> brûle les racines, lessive les nitrates dans les nappes, gaspille l'argent. En RDC, un agriculteur typique applique 200 kg/ha d'urée sans connaître le taux réel d'azote de son sol. Chaque saison, il perd de l'argent ou pollue les rivières — souvent les deux.</p>
+  </div>
+
+  <div data-lang="en">
+    <p>Nitrogen (N), phosphorus (P), and potassium (K) determine crop growth, yield, and health. But their exact dosage remains invisible to most African farmers. A lab analysis costs $30-80, takes 1-2 weeks, and only reflects the soil at one moment — while the soil changes daily under rain, plant uptake, and microbial activity. Between two analyses, the farmer flies blind.</p>
+    <p>Two failure modes result, both costly. <strong>Under-fertilization</strong> causes yellow leaves, slow growth, low yields. <strong>Over-fertilization</strong> burns roots, leaches nitrates into groundwater, wastes money. A typical farmer in DRC applies 200 kg/ha of urea without knowing the actual soil nitrogen level. Every season, money is lost or rivers are polluted — often both.</p>
+  </div>
+
+  <div data-lang="zh">
+    <p>氮 (N)、磷 (P) 和钾 (K) 决定作物的生长、产量和健康。但对大多数非洲农民来说,其确切剂量仍然不可见。实验室分析费用为 30-80 美元,需要 1-2 周时间,只反映某一时刻的土壤状况——而土壤每天都在雨水、植物吸收和微生物活动下变化。在两次分析之间,农民只能盲目操作。</p>
+    <p>这导致两种失败模式,都代价高昂。<strong>施肥不足</strong>会导致叶片发黄、生长缓慢、产量低下。<strong>施肥过量</strong>会烧伤根系,使硝酸盐渗入地下水,浪费金钱。刚果民主共和国一位典型农民在不知道土壤实际氮含量的情况下每公顷施用 200 公斤尿素。每个季节,要么损失金钱,要么污染河流——通常两者都有。</p>
+  </div>
+
+  <div class="img-placeholder">
+    <span class="icon">🌾</span>
+    <h4 data-lang="fr">[Emplacement image — Infographie « Problématique fondamentale »]</h4>
+    <h4 data-lang="en">[Image placeholder — "Fundamental problem" infographic]</h4>
+    <h4 data-lang="zh">[图片占位符 — "基本问题"信息图]</h4>
+    <p data-lang="fr">Insérez ici l'infographie problématique (agriculteur RDC, sous/sur-fertilisation)</p>
+    <p data-lang="en">Insert problem infographic (DRC farmer, under/over-fertilization)</p>
+    <p data-lang="zh">在此处插入问题信息图(刚果民主共和国农民,施肥不足/过量)</p>
+  </div>
+</div>
+
+<!-- ===== 2. SOLUTIONS EXISTANTES ===== -->
+<div class="section">
+  <span class="section-num amber" data-lang="fr">02 — Solutions existantes et leurs limites</span>
+  <span class="section-num amber" data-lang="en">02 — Existing solutions and their limits</span>
+  <span class="section-num amber" data-lang="zh">02 — 现有解决方案及其局限</span>
+
+  <h2 data-lang="fr">Du laboratoire à l'ANN classique : trois générations, trois limites</h2>
+  <h2 data-lang="en">From lab to classical ANN: three generations, three limits</h2>
+  <h2 data-lang="zh">从实验室到经典 ANN:三代,三个局限</h2>
+
+  <div data-lang="fr">
+    <h3>Analyse laboratoire — la référence inaccessible</h3>
+    <p>L'analyse en laboratoire (ICP-MS, photométrie) fournit des valeurs NPK exactes. C'est la référence irremplaçable. Mais 30-80 USD par mesure et 1-2 semaines d'attente la rendent économiquement inaccessible pour un suivi régulier. Entre deux analyses, le sol évolue en silence.</p>
+
+    <h3>Capteur VEMSEE SN-3002 seul — précision empirique</h3>
+    <p>Le capteur VEMSEE mesure en continu la conductivité électrique (EC), la température, l'humidité et le pH via RS485/ModBus, pour ~50 USD. Mais ses valeurs NPK affichées proviennent d'une <strong>formule empirique générique identique pour tous les sols</strong>. La datasheet du fabricant elle-même précise que les NPK affichés doivent être « entrés après mesure par méthode de référence ». Un agriculteur qui voit N=310 mg/kg à l'écran alors que son sol réel n'en contient que 85 prend de mauvaises décisions.</p>
+
+    <h3>VEMSEE V2 avec mémoire — bonne au jour 0, fausse au jour 30</h3>
+    <p>La génération suivante permet à l'agriculteur d'écrire les valeurs labo dans la mémoire du capteur via ModBus. C'est une avancée : à la saisie, les valeurs sont justes. Mais le sol évolue chaque jour. Les valeurs figées dérivent en silence, et l'agriculteur ne sait pas quand elles sont devenues fausses.</p>
+
+    <h3>ANN classique — apprend les patterns, ignore la physique</h3>
+    <p>Un réseau de neurones standard entraîné sur des paires (capteur, labo) améliore la précision. Mais sans connaissance du sol, il peut prédire des combinaisons N-P-K physiquement impossibles, et n'a aucune façon de signaler quand le sol change.</p>
+  </div>
+
+  <div data-lang="en">
+    <h3>Lab analysis — the inaccessible reference</h3>
+    <p>Laboratory analysis (ICP-MS, photometry) provides exact NPK values. It's the irreplaceable reference. But $30-80 per measurement and 1-2 weeks delay make it economically inaccessible for regular monitoring. Between analyses, the soil drifts silently.</p>
+
+    <h3>VEMSEE SN-3002 sensor alone — empirical precision</h3>
+    <p>The VEMSEE sensor continuously measures electrical conductivity (EC), temperature, humidity, and pH via RS485/ModBus, for ~$50. But its displayed NPK values come from a <strong>generic empirical formula identical for all soils</strong>. The manufacturer's datasheet itself specifies that NPK values must be "entered after measurement by reference method". A farmer seeing N=310 mg/kg on screen when actual soil contains only 85 makes bad decisions.</p>
+
+    <h3>VEMSEE V2 with memory — accurate at day 0, wrong at day 30</h3>
+    <p>The next generation lets farmers write lab values into the sensor's memory via ModBus. It's progress: at entry, values are accurate. But the soil changes daily. Frozen values drift silently, and the farmer doesn't know when they became wrong.</p>
+
+    <h3>Classical ANN — learns patterns, ignores physics</h3>
+    <p>A standard neural network trained on (sensor, lab) pairs improves accuracy. But without soil knowledge, it can predict physically impossible N-P-K combinations, and has no way to signal when soil conditions change.</p>
+  </div>
+
+  <div data-lang="zh">
+    <h3>实验室分析 — 无法获得的参考</h3>
+    <p>实验室分析(ICP-MS、光度法)提供准确的 NPK 值。这是不可替代的参考。但每次测量 30-80 美元、需要 1-2 周时间,使其在经济上无法定期监测。在两次分析之间,土壤悄然变化。</p>
+
+    <h3>仅 VEMSEE SN-3002 传感器 — 经验式精度</h3>
+    <p>VEMSEE 传感器通过 RS485/ModBus 持续测量电导率 (EC)、温度、湿度和 pH,价格约 50 美元。但其显示的 NPK 值来自<strong>对所有土壤相同的通用经验公式</strong>。制造商数据表本身指出 NPK 值必须"在参考方法测量后输入"。农民在屏幕上看到 N=310 mg/kg,而实际土壤只含 85,会做出错误决策。</p>
+
+    <h3>带存储的 VEMSEE V2 — 第 0 天准确,第 30 天错误</h3>
+    <p>下一代允许农民通过 ModBus 将实验室值写入传感器存储器。这是进步:输入时数值准确。但土壤每天都在变化。冻结的值悄然漂移,农民不知道何时变错。</p>
+
+    <h3>经典 ANN — 学习模式,忽略物理</h3>
+    <p>在(传感器,实验室)对上训练的标准神经网络可提高精度。但没有土壤知识,它可能预测物理上不可能的 N-P-K 组合,也无法在土壤条件变化时发出信号。</p>
+  </div>
+
+  <div class="img-placeholder">
+    <span class="icon">📊</span>
+    <h4 data-lang="fr">[Emplacement image — Infographie « Limites des solutions existantes »]</h4>
+    <h4 data-lang="en">[Image placeholder — "Limits of existing solutions" infographic]</h4>
+    <h4 data-lang="zh">[图片占位符 — "现有解决方案的局限"信息图]</h4>
+  </div>
+</div>
+
+<!-- ===== 3. SOLUTION PINN ===== -->
+<div class="section">
+  <span class="section-num green" data-lang="fr">03 — Notre approche : le PINN</span>
+  <span class="section-num green" data-lang="en">03 — Our approach: the PINN</span>
+  <span class="section-num green" data-lang="zh">03 — 我们的方法:PINN</span>
+
+  <h2 data-lang="fr">Un réseau de neurones avec un professeur de physique intégré</h2>
+  <h2 data-lang="en">A neural network with a built-in physics teacher</h2>
+  <h2 data-lang="zh">具有内置物理教师的神经网络</h2>
+
+  <div data-lang="fr">
+    <p>Un Physics-Informed Neural Network (PINN) combine deux sources d'apprentissage : (1) les données mesurées et (2) une loi physique imposée comme contrainte dans la fonction de perte. Pour TerraTrust AI, cette loi est celle de Kohlrausch, qui relie la conductivité électrique aux concentrations ioniques :</p>
+
+    <div style="background:var(--card);padding:20px;text-align:center;border-radius:8px;font-family:'DM Mono',monospace;margin:18px 0;font-size:15px">
+      EC_totale = λ<sub>N</sub> × [NO₃⁻] + λ<sub>P</sub> × [H₂PO₄⁻] + λ<sub>K</sub> × [K⁺] + EC<sub>background</sub>
+    </div>
+
+    <p>Le PINN apprend trois sources simultanément : les lectures du capteur VEMSEE en continu, quelques analyses labo pour ancrage à la vérité, et la loi de Kohlrausch comme garde-fou physique. La fonction de perte devient :</p>
+
+    <div style="background:var(--card);padding:20px;text-align:center;border-radius:8px;font-family:'DM Mono',monospace;margin:18px 0;font-size:15px">
+      L = L<sub>data</sub> + α × L<sub>Kohlrausch</sub>
+    </div>
+
+    <p>Pour <a href="https://fr.mathworks.com/discovery/physics-informed-neural-networks.html" target="_blank" rel="noopener">apprendre plus sur les PINN, voir le dossier MathWorks ↗</a></p>
+  </div>
+
+  <div data-lang="en">
+    <p>A Physics-Informed Neural Network (PINN) combines two learning sources: (1) measured data and (2) a physical law imposed as a constraint in the loss function. For TerraTrust AI, this law is Kohlrausch's, which relates electrical conductivity to ionic concentrations:</p>
+
+    <div style="background:var(--card);padding:20px;text-align:center;border-radius:8px;font-family:'DM Mono',monospace;margin:18px 0;font-size:15px">
+      EC_total = λ<sub>N</sub> × [NO₃⁻] + λ<sub>P</sub> × [H₂PO₄⁻] + λ<sub>K</sub> × [K⁺] + EC<sub>background</sub>
+    </div>
+
+    <p>The PINN learns from three sources simultaneously: continuous VEMSEE sensor readings, a few lab analyses for ground truth anchoring, and Kohlrausch's law as physical safeguard. The loss function becomes:</p>
+
+    <div style="background:var(--card);padding:20px;text-align:center;border-radius:8px;font-family:'DM Mono',monospace;margin:18px 0;font-size:15px">
+      L = L<sub>data</sub> + α × L<sub>Kohlrausch</sub>
+    </div>
+
+    <p>To <a href="https://www.mathworks.com/discovery/physics-informed-neural-networks.html" target="_blank" rel="noopener">learn more about PINNs, see the MathWorks resource ↗</a></p>
+  </div>
+
+  <div data-lang="zh">
+    <p>物理信息神经网络 (PINN) 结合了两种学习来源:(1) 测量数据和 (2) 作为损失函数约束的物理定律。对于 TerraTrust AI,该定律是科尔劳施定律,它将电导率与离子浓度联系起来:</p>
+
+    <div style="background:var(--card);padding:20px;text-align:center;border-radius:8px;font-family:'DM Mono',monospace;margin:18px 0;font-size:15px">
+      EC_总 = λ<sub>N</sub> × [NO₃⁻] + λ<sub>P</sub> × [H₂PO₄⁻] + λ<sub>K</sub> × [K⁺] + EC<sub>背景</sub>
+    </div>
+
+    <p>PINN 同时从三个来源学习:VEMSEE 传感器的连续读数、用于锚定真实值的少量实验室分析,以及作为物理保障的科尔劳施定律。损失函数变为:</p>
+
+    <div style="background:var(--card);padding:20px;text-align:center;border-radius:8px;font-family:'DM Mono',monospace;margin:18px 0;font-size:15px">
+      L = L<sub>数据</sub> + α × L<sub>科尔劳施</sub>
+    </div>
+
+    <p>要<a href="https://www.mathworks.com/discovery/physics-informed-neural-networks.html" target="_blank" rel="noopener">了解更多关于 PINN,请参阅 MathWorks 资源 ↗</a></p>
+  </div>
+
+  <div class="img-placeholder">
+    <span class="icon">🧠</span>
+    <h4 data-lang="fr">[Emplacement image — Infographie « Solution PINN »]</h4>
+    <h4 data-lang="en">[Image placeholder — "PINN Solution" infographic]</h4>
+    <h4 data-lang="zh">[图片占位符 — "PINN 解决方案"信息图]</h4>
+  </div>
+</div>
+
+<!-- ===== 4. SIMULATION HONNÊTE ===== -->
+<div class="section">
+  <span class="section-num blue" data-lang="fr">04 — Simulation honnête : test préliminaire</span>
+  <span class="section-num blue" data-lang="en">04 — Honest simulation: preliminary test</span>
+  <span class="section-num blue" data-lang="zh">04 — 诚实仿真:初步测试</span>
+
+  <h2 data-lang="fr">PINN vs ANN — ce que les données disent vraiment</h2>
+  <h2 data-lang="en">PINN vs ANN — what the data really says</h2>
+  <h2 data-lang="zh">PINN vs ANN — 数据真正告诉我们什么</h2>
+
+  <div data-lang="fr">
+    <p>Nous avons simulé 800 échantillons de sol synthétique avec NPK distribués réalistiquement (10-150 mg/kg), EC calculée via Kohlrausch + bruit capteur 7%. Trois régimes testés : 5% (démarrage), 20% (routine), 50% (accumulé) de données labo. Tâche apprenable (corrélations EC↔NPK : 0.86-0.93).</p>
+
+    <div class="img-placeholder">
+      <span class="icon">📈</span>
+      <h4>[Emplacement image — Graphique simulation PINN vs ANN]</h4>
+      <p>Insérez ici "simulation_honnete.png" (généré par notre simulation)</p>
+    </div>
+
+    <h3>Ce que la simulation valide</h3>
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">✅</span>
+        <h4>Phosphore : avantage net</h4>
+        <p>Sur le nutriment au signal physique le plus faible (λ_P faible), le PINN bat l'ANN de +8 points de R² à 5% de labo (0.37 vs 0.29). Cohérent avec la théorie.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">✅</span>
+        <h4>Cohérence physique</h4>
+        <p>Violation Kohlrausch réduite de 13% à régime moyen. Le PINN ne produit jamais de combinaisons N-P-K physiquement absurdes.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚖️</span>
+        <h4>N et K : match nul</h4>
+        <p>Avec un signal physique fort, ANN et PINN sont équivalents (R²≈0.78) même à 5% de labo. L'avantage du PINN dépend du contexte.</p>
+      </div>
+    </div>
+
+    <h3>Ce que la simulation invalide dans nos hypothèses initiales</h3>
+    <div class="callout amber">
+      <p><strong>L'ANN ne s'effondre pas avec peu de données.</strong> Quand le signal physique est fort, 30 mesures labo suffisent à un ANN classique pour atteindre R²=0.78 sur N et K. La narration "le PINN sauve l'ANN qui s'effondre" est exagérée.</p>
+    </div>
+    <div class="callout amber">
+      <p><strong>Le PINN n'est pas magique.</strong> Il progresse aussi avec plus de données, contrairement à ce qu'on présentait initialement. Aucun des deux modèles n'est saturé à 50% de labo.</p>
+    </div>
+  </div>
+
+  <div data-lang="en">
+    <p>We simulated 800 synthetic soil samples with realistic NPK distributions (10-150 mg/kg), EC computed via Kohlrausch + 7% sensor noise. Three regimes tested: 5% (startup), 20% (routine), 50% (accumulated) lab data. Learnable task (EC↔NPK correlations: 0.86-0.93).</p>
+
+    <div class="img-placeholder">
+      <span class="icon">📈</span>
+      <h4>[Image placeholder — PINN vs ANN simulation graph]</h4>
+      <p>Insert "simulation_honnete.png" (from our simulation) here</p>
+    </div>
+
+    <h3>What the simulation validates</h3>
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">✅</span>
+        <h4>Phosphorus: clear advantage</h4>
+        <p>On the nutrient with weakest physical signal (low λ_P), PINN beats ANN by +8 R² points at 5% lab data (0.37 vs 0.29). Consistent with theory.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">✅</span>
+        <h4>Physical consistency</h4>
+        <p>Kohlrausch violation reduced by 13% in middle regime. PINN never produces physically absurd N-P-K combinations.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚖️</span>
+        <h4>N and K: tie</h4>
+        <p>With strong physical signal, ANN and PINN are equivalent (R²≈0.78) even at 5% lab. PINN advantage is context-dependent.</p>
+      </div>
+    </div>
+
+    <h3>What the simulation invalidates in our initial hypotheses</h3>
+    <div class="callout amber">
+      <p><strong>ANN does not collapse with few data.</strong> When physical signal is strong, 30 lab measurements suffice for a classical ANN to reach R²=0.78 on N and K. The narrative "PINN rescues the collapsing ANN" was overblown.</p>
+    </div>
+    <div class="callout amber">
+      <p><strong>PINN is not magic.</strong> It also improves with more data, contrary to initial claims. Neither model is saturated at 50% lab data.</p>
+    </div>
+  </div>
+
+  <div data-lang="zh">
+    <p>我们模拟了 800 个合成土壤样本,NPK 分布真实 (10-150 mg/kg),EC 通过科尔劳施定律 + 7% 传感器噪声计算。测试了三种制度:5% (启动)、20% (常规)、50% (累积) 实验室数据。可学习任务 (EC↔NPK 相关性:0.86-0.93)。</p>
+
+    <div class="img-placeholder">
+      <span class="icon">📈</span>
+      <h4>[图片占位符 — PINN vs ANN 仿真图]</h4>
+      <p>在此处插入 "simulation_honnete.png" (来自我们的仿真)</p>
+    </div>
+
+    <h3>仿真验证的内容</h3>
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">✅</span>
+        <h4>磷:明显优势</h4>
+        <p>在物理信号最弱的营养素 (低 λ_P) 上,PINN 在 5% 实验室数据下比 ANN 高 +8 R² 点 (0.37 对 0.29)。符合理论。</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">✅</span>
+        <h4>物理一致性</h4>
+        <p>中等状态下科尔劳施违反减少 13%。PINN 永远不会产生物理上不合理的 N-P-K 组合。</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚖️</span>
+        <h4>N 和 K:打平</h4>
+        <p>在强物理信号下,即使 5% 实验室数据,ANN 和 PINN 也相当 (R²≈0.78)。PINN 优势取决于上下文。</p>
+      </div>
+    </div>
+
+    <h3>仿真无效化的初始假设</h3>
+    <div class="callout amber">
+      <p><strong>ANN 不会因数据少而崩溃。</strong>当物理信号强时,30 次实验室测量足以让经典 ANN 在 N 和 K 上达到 R²=0.78。"PINN 拯救崩溃 ANN"的叙述被夸大了。</p>
+    </div>
+    <div class="callout amber">
+      <p><strong>PINN 并非魔法。</strong>与最初的说法相反,它也随着数据增多而改进。两个模型在 50% 实验室数据时都未饱和。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 5. DÉTECTION DE DÉRIVE ===== -->
+<div class="section">
+  <span class="section-num blue" data-lang="fr">05 — Détection automatique de dérive</span>
+  <span class="section-num blue" data-lang="en">05 — Automatic drift detection</span>
+  <span class="section-num blue" data-lang="zh">05 — 自动漂移检测</span>
+
+  <h2 data-lang="fr">Comment TerraTrust AI sait qu'il faut retourner au labo</h2>
+  <h2 data-lang="en">How TerraTrust AI knows when to return to the lab</h2>
+  <h2 data-lang="zh">TerraTrust AI 如何知道何时返回实验室</h2>
+
+  <div data-lang="fr">
+    <p>Nous avons simulé un sol qui évolue sur 180 jours (pluies, fertilisation, absorption par les plantes) avec un PINN entraîné uniquement sur les 30 premiers jours. Question : le système peut-il signaler la dérive avant que ses prédictions deviennent dangereusement fausses ?</p>
+
+    <h3>Architecture à deux mécanismes</h3>
+    <p>Le PINN seul ne suffit pas — la loi de Kohlrausch est mathématiquement sous-déterminée (1 équation, 3 inconnues NPK). Une infinité de triplets satisfont la même EC. La cohérence physique seule ne détecte pas la dérive précoce. Il faut combiner deux signaux :</p>
+
+    <div class="arch">
+      <div class="arch-box edge">
+        <h4>🔬 Mécanisme 1 — Contrainte Kohlrausch (loss physique)</h4>
+        <p style="font-size:13.5px;margin-bottom:10px"><strong>Rôle :</strong> Garantir que les NPK prédits restent physiquement cohérents avec l'EC mesurée à chaque instant.</p>
+        <p style="font-size:13.5px;margin:0"><strong>Limite :</strong> Ne détecte pas la dérive précoce (sous-détermination). Sert de garde-fou, pas d'alerte.</p>
+      </div>
+      <div class="arch-box cloud">
+        <h4>📊 Mécanisme 2 — Monte Carlo Dropout</h4>
+        <p style="font-size:13.5px;margin-bottom:10px"><strong>Rôle :</strong> Quantifier l'incertitude de prédiction. Quand le sol sort de la distribution d'entraînement, la variance des passes MC monte.</p>
+        <p style="font-size:13.5px;margin:0"><strong>Validation :</strong> 28 jours d'avance avant l'erreur dangereuse (notre simulation).</p>
+      </div>
+    </div>
+
+    <div class="img-placeholder">
+      <span class="icon">📉</span>
+      <h4>[Emplacement image — Graphique détection de dérive]</h4>
+      <p>Insérez ici "drift_detection.png" (notre simulation 180 jours)</p>
+    </div>
+
+    <div class="callout green">
+      <p><strong>Résultat clé.</strong> Sur notre scénario simulé, l'incertitude bayésienne dépasse son seuil d'alerte au jour 49. La première erreur de prédiction dangereuse (>20 mg/kg) arrive au jour 77. <strong>L'agriculteur a 28 jours pour programmer une analyse labo</strong> avant que le système ne déraille — ce qui est l'esprit même de l'aide à la décision.</p>
+    </div>
+
+    <p>Cette architecture combinée correspond à ce que <a href="#refs">Khan et al. (2025, IEEE)</a> appellent PINN-BNN dans leur travail sur les éoliennes. Nous l'appliquons ici au domaine agricole.</p>
+  </div>
+
+  <div data-lang="en">
+    <p>We simulated soil evolving over 180 days (rain, fertilization, plant uptake) with a PINN trained only on the first 30 days. Question: can the system signal drift before its predictions become dangerously wrong?</p>
+
+    <h3>Two-mechanism architecture</h3>
+    <p>The PINN alone is not enough — Kohlrausch's law is mathematically under-determined (1 equation, 3 unknowns NPK). Infinite triplets satisfy the same EC. Physical consistency alone does not detect early drift. We must combine two signals:</p>
+
+    <div class="arch">
+      <div class="arch-box edge">
+        <h4>🔬 Mechanism 1 — Kohlrausch constraint (physics loss)</h4>
+        <p style="font-size:13.5px;margin-bottom:10px"><strong>Role:</strong> Ensure predicted NPK remains physically consistent with measured EC at every moment.</p>
+        <p style="font-size:13.5px;margin:0"><strong>Limit:</strong> Does not detect early drift (under-determination). Acts as safeguard, not alert.</p>
+      </div>
+      <div class="arch-box cloud">
+        <h4>📊 Mechanism 2 — Monte Carlo Dropout</h4>
+        <p style="font-size:13.5px;margin-bottom:10px"><strong>Role:</strong> Quantify prediction uncertainty. When soil leaves training distribution, MC pass variance rises.</p>
+        <p style="font-size:13.5px;margin:0"><strong>Validation:</strong> 28 days lead before dangerous error (our simulation).</p>
+      </div>
+    </div>
+
+    <div class="img-placeholder">
+      <span class="icon">📉</span>
+      <h4>[Image placeholder — Drift detection graph]</h4>
+      <p>Insert "drift_detection.png" (our 180-day simulation) here</p>
+    </div>
+
+    <div class="callout green">
+      <p><strong>Key result.</strong> In our simulated scenario, Bayesian uncertainty crosses its alert threshold on day 49. The first dangerous prediction error (>20 mg/kg) arrives on day 77. <strong>The farmer has 28 days to schedule a lab analysis</strong> before the system derails — this is decision support in essence.</p>
+    </div>
+
+    <p>This combined architecture corresponds to what <a href="#refs">Khan et al. (2025, IEEE)</a> call PINN-BNN in their wind turbine work. We apply it here to agriculture.</p>
+  </div>
+
+  <div data-lang="zh">
+    <p>我们模拟了土壤在 180 天内的演化 (降雨、施肥、植物吸收),PINN 仅在前 30 天上训练。问题:系统能否在预测变得危险错误之前发出漂移信号?</p>
+
+    <h3>双机制架构</h3>
+    <p>仅 PINN 是不够的——科尔劳施定律在数学上是欠定的 (1 个方程,3 个未知 NPK)。无限的三元组满足相同的 EC。仅物理一致性无法检测早期漂移。我们必须结合两个信号:</p>
+
+    <div class="arch">
+      <div class="arch-box edge">
+        <h4>🔬 机制 1 — 科尔劳施约束(物理损失)</h4>
+        <p style="font-size:13.5px;margin-bottom:10px"><strong>作用:</strong>确保预测的 NPK 在每个时刻与测量的 EC 保持物理一致。</p>
+        <p style="font-size:13.5px;margin:0"><strong>限制:</strong>不检测早期漂移(欠定)。作为保障,而非警报。</p>
+      </div>
+      <div class="arch-box cloud">
+        <h4>📊 机制 2 — Monte Carlo Dropout</h4>
+        <p style="font-size:13.5px;margin-bottom:10px"><strong>作用:</strong>量化预测不确定性。当土壤离开训练分布时,MC 传递方差上升。</p>
+        <p style="font-size:13.5px;margin:0"><strong>验证:</strong>在危险错误之前提前 28 天(我们的仿真)。</p>
+      </div>
+    </div>
+
+    <div class="img-placeholder">
+      <span class="icon">📉</span>
+      <h4>[图片占位符 — 漂移检测图]</h4>
+      <p>在此处插入 "drift_detection.png" (我们的 180 天仿真)</p>
+    </div>
+
+    <div class="callout green">
+      <p><strong>关键结果。</strong>在我们的仿真场景中,贝叶斯不确定性在第 49 天越过警报阈值。第一个危险预测误差 (>20 mg/kg) 在第 77 天出现。<strong>农民有 28 天来安排实验室分析</strong>,然后系统出错——这就是决策支持的本质。</p>
+    </div>
+
+    <p>这种组合架构对应于 <a href="#refs">Khan 等人 (2025, IEEE)</a> 在他们的风力涡轮机工作中所称的 PINN-BNN。我们将其应用于农业领域。</p>
+  </div>
+</div>
+
+<!-- ===== 6. ARCHITECTURE EDGE + CLOUD ===== -->
+<div class="section">
+  <span class="section-num soil" data-lang="fr">06 — Architecture : ESP32-S3 edge + cloud opportuniste</span>
+  <span class="section-num soil" data-lang="en">06 — Architecture: ESP32-S3 edge + opportunistic cloud</span>
+  <span class="section-num soil" data-lang="zh">06 — 架构:ESP32-S3 边缘 + 机会云</span>
+
+  <h2 data-lang="fr">Tout l'essentiel tourne sur la box, sans internet</h2>
+  <h2 data-lang="en">Everything essential runs on the box, no internet needed</h2>
+  <h2 data-lang="zh">所有关键功能在盒子上运行,无需互联网</h2>
+
+  <div data-lang="fr">
+    <p>L'ESP32-S3 (dual-core 240 MHz, 512 KB SRAM + 8 MB PSRAM, accélérateur SIMD) suffit largement pour faire tourner un PINN de 4900 paramètres (~5 KB quantifié int8). Inférence en 3 ms. Détection de dérive par MC Dropout (10 passes) en 30 ms. Une mesure toutes les 5 minutes consomme moins que ce qu'un panneau solaire 5 W fournit.</p>
+
+    <div class="arch">
+      <div class="arch-box edge">
+        <h4>📡 SUR ESP32-S3 (local, autonome)</h4>
+        <ul>
+          <li>Acquisition capteur VEMSEE via ModBus RS485</li>
+          <li>Capteurs BME688 (T°, humidité, pression atmo) via I²C</li>
+          <li>Filtrage médian + normalisation</li>
+          <li>Inférence PINN quantifié int8 (3 ms)</li>
+          <li>Audit Kohlrausch externe (vérif cohérence physique)</li>
+          <li>MC Dropout 10 passes pour incertitude (30 ms)</li>
+          <li>Logique d'alerte locale (LED, OLED, Bluetooth)</li>
+          <li>Stockage 30 jours en flash (mode hors-ligne)</li>
+        </ul>
+      </div>
+      <div class="arch-box cloud">
+        <h4>☁️ SUR CLOUD (optionnel, opportuniste)</h4>
+        <ul>
+          <li>Ré-entraînement PINN après ~30 nouvelles analyses labo</li>
+          <li>Envoi OTA du nouveau modèle quantifié (~10 KB)</li>
+          <li>MC Dropout étendu (50-100 passes) pour validation</li>
+          <li>Dashboard historique multi-saisons</li>
+          <li>Alertes SMS si agriculteur éloigné de la box</li>
+          <li>Apprentissage fédéré multi-fermes (privacy preserved)</li>
+          <li>Comparaison automatique prédictions vs nouvelles analyses labo</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>Si l'agriculteur n'a aucune connexion, le système <strong>continue à fonctionner</strong> pour toutes les fonctions critiques. Le cloud sert à <strong>améliorer le modèle</strong> au fil du temps, pas à le faire tourner.</p>
+  </div>
+
+  <div data-lang="en">
+    <p>The ESP32-S3 (dual-core 240 MHz, 512 KB SRAM + 8 MB PSRAM, SIMD accelerator) is largely sufficient for a 4900-parameter PINN (~5 KB int8 quantized). Inference in 3 ms. Drift detection via MC Dropout (10 passes) in 30 ms. One measurement every 5 minutes consumes less than what a 5 W solar panel provides.</p>
+
+    <div class="arch">
+      <div class="arch-box edge">
+        <h4>📡 ON ESP32-S3 (local, autonomous)</h4>
+        <ul>
+          <li>VEMSEE sensor acquisition via ModBus RS485</li>
+          <li>BME688 sensors (T°, humidity, atm. pressure) via I²C</li>
+          <li>Median filtering + normalization</li>
+          <li>Int8 quantized PINN inference (3 ms)</li>
+          <li>External Kohlrausch audit (physical consistency check)</li>
+          <li>MC Dropout 10 passes for uncertainty (30 ms)</li>
+          <li>Local alert logic (LED, OLED, Bluetooth)</li>
+          <li>30-day flash storage (offline mode)</li>
+        </ul>
+      </div>
+      <div class="arch-box cloud">
+        <h4>☁️ ON CLOUD (optional, opportunistic)</h4>
+        <ul>
+          <li>PINN re-training after ~30 new lab analyses</li>
+          <li>OTA delivery of new quantized model (~10 KB)</li>
+          <li>Extended MC Dropout (50-100 passes) for validation</li>
+          <li>Multi-season historical dashboard</li>
+          <li>SMS alerts if farmer is far from box</li>
+          <li>Federated multi-farm learning (privacy preserved)</li>
+          <li>Auto comparison: predictions vs new lab analyses</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>If the farmer has no connection, the system <strong>continues to operate</strong> for all critical functions. The cloud serves to <strong>improve the model</strong> over time, not to run it.</p>
+  </div>
+
+  <div data-lang="zh">
+    <p>ESP32-S3(双核 240 MHz,512 KB SRAM + 8 MB PSRAM,SIMD 加速器)足以运行 4900 参数的 PINN(int8 量化约 5 KB)。推理 3 毫秒。MC Dropout 漂移检测(10 次)30 毫秒。每 5 分钟一次测量,消耗小于 5W 太阳能电池板的供电。</p>
+
+    <div class="arch">
+      <div class="arch-box edge">
+        <h4>📡 在 ESP32-S3 上(本地,自主)</h4>
+        <ul>
+          <li>通过 ModBus RS485 采集 VEMSEE 传感器</li>
+          <li>通过 I²C 采集 BME688 (温度、湿度、大气压)</li>
+          <li>中值滤波 + 归一化</li>
+          <li>Int8 量化 PINN 推理 (3 毫秒)</li>
+          <li>外部科尔劳施审计(物理一致性检查)</li>
+          <li>MC Dropout 10 次用于不确定性 (30 毫秒)</li>
+          <li>本地报警逻辑(LED、OLED、蓝牙)</li>
+          <li>30 天闪存存储(离线模式)</li>
+        </ul>
+      </div>
+      <div class="arch-box cloud">
+        <h4>☁️ 在云端(可选,机会)</h4>
+        <ul>
+          <li>在约 30 次新实验室分析后重训练 PINN</li>
+          <li>OTA 交付新量化模型(约 10 KB)</li>
+          <li>扩展 MC Dropout (50-100 次) 用于验证</li>
+          <li>多季历史仪表板</li>
+          <li>农民远离盒子时短信警报</li>
+          <li>联邦多农场学习(保护隐私)</li>
+          <li>自动比较:预测 vs 新实验室分析</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>如果农民没有连接,系统对所有关键功能<strong>继续运行</strong>。云端用于<strong>随时间改进模型</strong>,而不是运行它。</p>
+  </div>
+</div>
+
+<!-- ===== 7. PRODUITS : BOX + AGENT ===== -->
+<div class="section">
+  <span class="section-num green" data-lang="fr">07 — Produits TERRA AI</span>
+  <span class="section-num green" data-lang="en">07 — TERRA AI Products</span>
+  <span class="section-num green" data-lang="zh">07 — TERRA AI 产品</span>
+
+  <h2 data-lang="fr">Une box, un agent, un écosystème de confiance</h2>
+  <h2 data-lang="en">A box, an agent, a trust ecosystem</h2>
+  <h2 data-lang="zh">一个盒子,一个代理,一个信任生态系统</h2>
+
+  <!-- BOX TERRA AI -->
+  <div class="box-feature">
+    <h3 data-lang="fr">📦 TERRA AI Box — Smart Agriculture AI-Data-Driven</h3>
+    <h3 data-lang="en">📦 TERRA AI Box — Smart Agriculture AI-Data-Driven</h3>
+    <h3 data-lang="zh">📦 TERRA AI 盒子 — 智能农业 AI 数据驱动</h3>
+
+    <p data-lang="fr">La box autonome qui intègre tout TerraTrust AI dans un boîtier IP67 alimenté par panneau solaire. Conçue pour l'Afrique, conçue pour fonctionner sans internet, conçue pour durer.</p>
+    <p data-lang="en">The autonomous box that integrates all of TerraTrust AI in an IP67 enclosure powered by solar panel. Designed for Africa, designed to work without internet, designed to last.</p>
+    <p data-lang="zh">将整个 TerraTrust AI 集成到由太阳能电池板供电的 IP67 外壳中的自主盒子。为非洲设计,设计为无需互联网即可运行,设计为持久使用。</p>
+
+    <div class="features">
+      <div class="feat">
+        <h4 data-lang="fr">🌱 16 variables mesurées</h4>
+        <h4 data-lang="en">🌱 16 variables measured</h4>
+        <h4 data-lang="zh">🌱 测量 16 个变量</h4>
+        <p data-lang="fr">Sol (EC, T°, humidité, pH, NPK), feuille (T°, humidité), atmosphère (T°, pression, humidité, qualité air)</p>
+        <p data-lang="en">Soil (EC, T°, humidity, pH, NPK), leaf (T°, humidity), atmosphere (T°, pressure, humidity, air quality)</p>
+        <p data-lang="zh">土壤 (EC、温度、湿度、pH、NPK)、叶片 (温度、湿度)、大气 (温度、压力、湿度、空气质量)</p>
+      </div>
+      <div class="feat">
+        <h4 data-lang="fr">🧠 IA embarquée</h4>
+        <h4 data-lang="en">🧠 Embedded AI</h4>
+        <h4 data-lang="zh">🧠 嵌入式 AI</h4>
+        <p data-lang="fr">PINN quantifié sur ESP32-S3. Inférence locale, décisions locales, alertes locales. Sans dépendance cloud.</p>
+        <p data-lang="en">Quantized PINN on ESP32-S3. Local inference, local decisions, local alerts. Cloud-independent.</p>
+        <p data-lang="zh">在 ESP32-S3 上的量化 PINN。本地推理,本地决策,本地警报。无云依赖。</p>
+      </div>
+      <div class="feat">
+        <h4 data-lang="fr">📡 LoRa + WiFi/BLE</h4>
+        <h4 data-lang="en">📡 LoRa + WiFi/BLE</h4>
+        <h4 data-lang="zh">📡 LoRa + WiFi/BLE</h4>
+        <p data-lang="fr">LoRa pour communication longue portée (15 km). WiFi/BLE pour connexion locale au smartphone. Cloud opportuniste.</p>
+        <p data-lang="en">LoRa for long-range communication (15 km). WiFi/BLE for local smartphone connection. Opportunistic cloud.</p>
+        <p data-lang="zh">LoRa 用于长距离通信 (15 公里)。WiFi/BLE 用于本地智能手机连接。机会云。</p>
+      </div>
+      <div class="feat">
+        <h4 data-lang="fr">☀️ Énergie autonome</h4>
+        <h4 data-lang="en">☀️ Energy autonomous</h4>
+        <h4 data-lang="zh">☀️ 能源自主</h4>
+        <p data-lang="fr">Panneau solaire 5W + batterie 10Ah. Autonomie continue, même par temps couvert. Conçu pour le climat tropical.</p>
+        <p data-lang="en">5W solar panel + 10Ah battery. Continuous autonomy, even in cloudy weather. Designed for tropical climate.</p>
+        <p data-lang="zh">5W 太阳能板 + 10Ah 电池。即使在阴天也能持续自主。专为热带气候设计。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="img-placeholder">
+    <span class="icon">📦</span>
+    <h4 data-lang="fr">[Emplacement image — Photo de la box TERRA AI en champ]</h4>
+    <h4 data-lang="en">[Image placeholder — TERRA AI box photo in field]</h4>
+    <h4 data-lang="zh">[图片占位符 — TERRA AI 盒子田间照片]</h4>
+    <p data-lang="fr">Insérez ici l'infographie TERRA AI complète (box + capteurs + smartphone)</p>
+    <p data-lang="en">Insert TERRA AI complete infographic (box + sensors + smartphone) here</p>
+    <p data-lang="zh">在此处插入 TERRA AI 完整信息图(盒子 + 传感器 + 智能手机)</p>
+  </div>
+
+  <!-- TERRA AI AGENT -->
+  <h3 data-lang="fr" style="margin-top:48px">🤖 Terra AI Agent — l'intelligence agronomique embarquée</h3>
+  <h3 data-lang="en" style="margin-top:48px">🤖 Terra AI Agent — embedded agronomic intelligence</h3>
+  <h3 data-lang="zh" style="margin-top:48px">🤖 Terra AI 代理 — 嵌入式农艺智能</h3>
+
+  <div data-lang="fr">
+    <p>Au-delà des mesures et prédictions, Terra AI Agent dialogue avec l'agriculteur en langage naturel. Il analyse les données du sol en temps réel, propose des recommandations contextuelles selon la culture (fraise, maïs, tomate...), le stade végétatif et les conditions locales. Disponible en français, anglais et chinois — bientôt en swahili, lingala, wolof.</p>
+
+    <p><strong>Exemples de questions auxquelles l'agent répond :</strong></p>
+    <ul style="padding-left:24px;margin:14px 0">
+      <li>« Que puis-je faire aujourd'hui dans ma parcelle ? »</li>
+      <li>« Est-ce le bon moment pour fertiliser ? »</li>
+      <li>« Pourquoi mes feuilles jaunissent-elles ? »</li>
+      <li>« Quand devrais-je refaire une analyse de sol ? »</li>
+    </ul>
+  </div>
+
+  <div data-lang="en">
+    <p>Beyond measurements and predictions, Terra AI Agent dialogues with farmers in natural language. It analyzes soil data in real time, suggests contextual recommendations based on crop (strawberry, corn, tomato...), growth stage, and local conditions. Available in French, English, and Chinese — soon in Swahili, Lingala, Wolof.</p>
+
+    <p><strong>Examples of questions the agent answers:</strong></p>
+    <ul style="padding-left:24px;margin:14px 0">
+      <li>"What can I do today in my plot?"</li>
+      <li>"Is this the right time to fertilize?"</li>
+      <li>"Why are my leaves yellowing?"</li>
+      <li>"When should I redo a soil analysis?"</li>
+    </ul>
+  </div>
+
+  <div data-lang="zh">
+    <p>除了测量和预测之外,Terra AI 代理还以自然语言与农民对话。它实时分析土壤数据,根据作物 (草莓、玉米、番茄...)、生长阶段和当地条件提供情境化建议。提供法语、英语和中文——很快将提供斯瓦希里语、林加拉语、沃洛夫语。</p>
+
+    <p><strong>代理回答的问题示例:</strong></p>
+    <ul style="padding-left:24px;margin:14px 0">
+      <li>"我今天可以在我的地块做什么?"</li>
+      <li>"这是施肥的合适时间吗?"</li>
+      <li>"为什么我的叶子变黄?"</li>
+      <li>"我应该什么时候重做土壤分析?"</li>
+    </ul>
+  </div>
+
+  <div class="img-placeholder">
+    <span class="icon">💬</span>
+    <h4 data-lang="fr">[Emplacement image — Interface complète Terra AI v3.0 + chat agent]</h4>
+    <h4 data-lang="en">[Image placeholder — Complete Terra AI v3.0 interface + agent chat]</h4>
+    <h4 data-lang="zh">[图片占位符 — 完整的 Terra AI v3.0 界面 + 代理聊天]</h4>
+    <p data-lang="fr">Insérez ici les captures d'écran de l'interface (dashboard + chat agent + analyse IA)</p>
+    <p data-lang="en">Insert interface screenshots here (dashboard + agent chat + AI analysis)</p>
+    <p data-lang="zh">在此处插入界面截图(仪表板 + 代理聊天 + AI 分析)</p>
+  </div>
+</div>
+
+<!-- ===== 8. VALIDATION SCIENTIFIQUE ===== -->
+<div class="section" id="refs">
+  <span class="section-num soil" data-lang="fr">08 — Validation scientifique</span>
+  <span class="section-num soil" data-lang="en">08 — Scientific validation</span>
+  <span class="section-num soil" data-lang="zh">08 — 科学验证</span>
+
+  <h2 data-lang="fr">Trois publications 2025 qui valident l'approche méthodologique</h2>
+  <h2 data-lang="en">Three 2025 publications validating the methodological approach</h2>
+  <h2 data-lang="zh">三篇 2025 年出版物验证方法论方法</h2>
+
+  <div data-lang="fr">
+    <p>TerraTrust AI ne réinvente pas la roue. L'approche PINN + quantification d'incertitude pour problèmes inverses avec données rares est une méthodologie validée scientifiquement par des publications récentes dans des domaines variés. Notre contribution est de transposer cette méthodologie à l'agriculture africaine et de la tester honnêtement.</p>
+  </div>
+
+  <div data-lang="en">
+    <p>TerraTrust AI doesn't reinvent the wheel. The PINN + uncertainty quantification approach for inverse problems with sparse data is a scientifically validated methodology, per recent publications in varied domains. Our contribution is to transpose this methodology to African agriculture and test it honestly.</p>
+  </div>
+
+  <div data-lang="zh">
+    <p>TerraTrust AI 不会重新发明轮子。PINN + 不确定性量化方法用于稀疏数据的逆问题,是经过科学验证的方法,见各种领域最近的出版物。我们的贡献是将这种方法转移到非洲农业并诚实地测试它。</p>
+  </div>
+
+  <div class="ref">
+    <span class="ref-tag">PDF #1 — IEEE 2025</span>
+    <h4>Rizqan, Hole, Gretton (Australian National University)</h4>
+    <p class="authors" data-lang="fr">« Evaluation and Verification of Physics-Informed Neural Models of the Grad-Shafranov Equation »</p>
+    <p class="authors" data-lang="en">"Evaluation and Verification of Physics-Informed Neural Models of the Grad-Shafranov Equation"</p>
+    <p class="authors" data-lang="zh">《Grad-Shafranov 方程的物理信息神经模型评估与验证》</p>
+    <p data-lang="fr"><strong>Ce que ce papier valide pour TerraTrust :</strong> Les PINN généralisent bien dans leur domaine d'entraînement (R²≈0.96), mais dérivent en extrapolation (R²≈0.17). Cette dégradation justifie exactement le besoin d'une barre d'incertitude et d'une alerte de recalibrage. Démontre aussi que la vérification formelle (Marabou) peut détecter quand un PINN sort de son domaine de validité.</p>
+    <p data-lang="en"><strong>What this paper validates for TerraTrust:</strong> PINNs generalize well in their training domain (R²≈0.96), but drift in extrapolation (R²≈0.17). This degradation justifies the need for uncertainty bars and recalibration alerts. Also demonstrates that formal verification (Marabou) can detect when a PINN leaves its validity domain.</p>
+    <p data-lang="zh"><strong>这篇论文对 TerraTrust 验证的内容:</strong>PINN 在其训练域内泛化良好 (R²≈0.96),但在外推时漂移 (R²≈0.17)。这种退化正好证明了不确定性条和重新校准警报的必要性。还表明形式验证 (Marabou) 可以检测 PINN 何时离开其有效域。</p>
+  </div>
+
+  <div class="ref">
+    <span class="ref-tag">PDF #2 — IEEE OJ-CS 2025</span>
+    <h4>Khan, Rahman, Mahmud et al. (American International University-Bangladesh)</h4>
+    <p class="authors" data-lang="fr">« A Physics-Guided Bayesian Neural Network for Sensor Fault Detection in Wind Turbines »</p>
+    <p class="authors" data-lang="en">"A Physics-Guided Bayesian Neural Network for Sensor Fault Detection in Wind Turbines"</p>
+    <p class="authors" data-lang="zh">《用于风力涡轮机传感器故障检测的物理引导贝叶斯神经网络》</p>
+    <p data-lang="fr"><strong>Ce que ce papier valide pour TerraTrust :</strong> L'architecture <strong>PINN-BNN</strong> (que nous adoptons) atteint 97.6% de précision sur un dataset réel d'éoliennes. Démontre que la combinaison physics-informed learning + inférence bayésienne améliore la généralisation sur données rares et bruitées — exactement notre situation avec le VEMSEE. C'est la référence architecturale principale de notre travail.</p>
+    <p data-lang="en"><strong>What this paper validates for TerraTrust:</strong> The <strong>PINN-BNN</strong> architecture (which we adopt) achieves 97.6% accuracy on a real wind turbine dataset. Demonstrates that combining physics-informed learning + Bayesian inference improves generalization on sparse and noisy data — exactly our VEMSEE situation. This is our main architectural reference.</p>
+    <p data-lang="zh"><strong>这篇论文对 TerraTrust 验证的内容:</strong>我们采用的 <strong>PINN-BNN</strong> 架构在真实风力涡轮机数据集上达到 97.6% 的准确率。证明了结合物理信息学习 + 贝叶斯推理可以改善对稀疏和噪声数据的泛化——这正是我们 VEMSEE 的情况。这是我们主要的架构参考。</p>
+  </div>
+
+  <div class="ref">
+    <span class="ref-tag">PDF #3 — Elsevier 2025</span>
+    <h4>Venianakis, Theodoropoulos, Kavousanakis (NTUA / Manchester)</h4>
+    <p class="authors" data-lang="fr">« A Physics Informed Machine Learning Framework for Optimal Sensor Placement and Parameter Estimation »</p>
+    <p class="authors" data-lang="en">"A Physics Informed Machine Learning Framework for Optimal Sensor Placement and Parameter Estimation"</p>
+    <p class="authors" data-lang="zh">《用于最佳传感器放置和参数估计的物理信息机器学习框架》</p>
+    <p data-lang="fr"><strong>Ce que ce papier valide pour TerraTrust :</strong> Les PINN peuvent estimer des paramètres physiques inconnus à partir de mesures de capteurs ponctuels, avec très peu de données (15-30 par saison) et robustesse au bruit gaussien (~10%). Démontre directement que notre setup (capteur EC + quelques analyses labo) est mathématiquement bien posé pour l'estimation NPK — sous condition d'avoir suffisamment d'équations indépendantes.</p>
+    <p data-lang="en"><strong>What this paper validates for TerraTrust:</strong> PINNs can estimate unknown physical parameters from point sensor measurements with very little data (15-30 per season) and Gaussian noise robustness (~10%). Directly demonstrates that our setup (EC sensor + few lab analyses) is mathematically well-posed for NPK estimation — provided we have enough independent equations.</p>
+    <p data-lang="zh"><strong>这篇论文对 TerraTrust 验证的内容:</strong>PINN 可以从点传感器测量中估计未知物理参数,数据非常少 (每季 15-30 次) 且对高斯噪声具有鲁棒性 (约 10%)。直接证明我们的设置 (EC 传感器 + 少量实验室分析) 在数学上对 NPK 估计是适定的——前提是我们有足够的独立方程。</p>
+  </div>
+
+  <div class="callout green">
+    <p data-lang="fr"><strong>Référence agro-spécifique citée dans nos infographies :</strong> Ennaji O., Belgaid A., El Allali A. (2025), « Machine learning-based optimization of site-specific NPK fertilizer recommendation », Smart Agricultural Technology (Elsevier, IEEE Xplore). Étude la plus proche du domaine NPK agricole — démontre R²=0.96 en interpolation et gain de rendement simulé de +20% sous contraintes environnementales.</p>
+    <p data-lang="en"><strong>Domain-specific reference cited in our infographics:</strong> Ennaji O., Belgaid A., El Allali A. (2025), "Machine learning-based optimization of site-specific NPK fertilizer recommendation", Smart Agricultural Technology (Elsevier, IEEE Xplore). Closest study to NPK agriculture domain — demonstrates R²=0.96 in interpolation and simulated yield gain of +20% under environmental constraints.</p>
+    <p data-lang="zh"><strong>我们信息图中引用的领域特定参考:</strong>Ennaji O., Belgaid A., El Allali A. (2025), "基于机器学习的特定地点 NPK 肥料推荐优化", Smart Agricultural Technology (Elsevier, IEEE Xplore)。最接近 NPK 农业领域的研究 — 在插值中证明 R²=0.96,在环境约束下模拟产量增益 +20%。</p>
+  </div>
+</div>
+
+<!-- ===== 9. CAPTEUR & RESSOURCES ===== -->
+<div class="section">
+  <span class="section-num soil" data-lang="fr">09 — Le capteur et les ressources</span>
+  <span class="section-num soil" data-lang="en">09 — Sensor and resources</span>
+  <span class="section-num soil" data-lang="zh">09 — 传感器和资源</span>
+
+  <h2 data-lang="fr">Hardware accessible, science ouverte</h2>
+  <h2 data-lang="en">Accessible hardware, open science</h2>
+  <h2 data-lang="zh">易于获取的硬件,开放的科学</h2>
+
+  <div data-lang="fr">
+    <p>Le capteur VEMSEE SN-3002 (ou équivalent générique « All-in-One Soil Sensor NPK pH EC ») est largement disponible sur le marché à environ 50 USD. C'est ce hardware qui rend TerraTrust AI économiquement viable pour l'agriculture africaine.</p>
+
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">🌱</span>
+        <h4>Capteur VEMSEE SN-3002</h4>
+        <p>Sonde sol 7-en-1 : EC, T°, humidité, pH, NPK (empirique), salinité, TDS. Protocole ModBus RS485. ~50 USD.</p>
+        <p style="margin-top:10px"><a href="https://fr.made-in-china.com/co_rainbowsensor/product_All-in-One-Soil-Sensor-NPK-pH-Ec-Sensor-for-Agriculture-Monitoring_uoynuyhrey.html" target="_blank" rel="noopener" class="btn">Voir le capteur ↗</a></p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📚</span>
+        <h4>Ressource PINN</h4>
+        <p>Pour comprendre les Physics-Informed Neural Networks, leur fondement théorique et leurs applications dans l'industrie.</p>
+        <p style="margin-top:10px"><a href="https://fr.mathworks.com/discovery/physics-informed-neural-networks.html" target="_blank" rel="noopener" class="btn amber">Dossier MathWorks ↗</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div data-lang="en">
+    <p>The VEMSEE SN-3002 sensor (or generic "All-in-One Soil Sensor NPK pH EC" equivalent) is widely available on the market at around $50. This hardware is what makes TerraTrust AI economically viable for African agriculture.</p>
+
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">🌱</span>
+        <h4>VEMSEE SN-3002 Sensor</h4>
+        <p>7-in-1 soil probe: EC, T°, humidity, pH, NPK (empirical), salinity, TDS. ModBus RS485 protocol. ~$50.</p>
+        <p style="margin-top:10px"><a href="https://fr.made-in-china.com/co_rainbowsensor/product_All-in-One-Soil-Sensor-NPK-pH-Ec-Sensor-for-Agriculture-Monitoring_uoynuyhrey.html" target="_blank" rel="noopener" class="btn">View sensor ↗</a></p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📚</span>
+        <h4>PINN Resource</h4>
+        <p>To understand Physics-Informed Neural Networks, their theoretical foundation and industrial applications.</p>
+        <p style="margin-top:10px"><a href="https://www.mathworks.com/discovery/physics-informed-neural-networks.html" target="_blank" rel="noopener" class="btn amber">MathWorks resource ↗</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div data-lang="zh">
+    <p>VEMSEE SN-3002 传感器(或通用的"多合一土壤传感器 NPK pH EC"等价产品)在市场上广泛可用,价格约为 50 美元。这种硬件使 TerraTrust AI 在非洲农业上经济可行。</p>
+
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">🌱</span>
+        <h4>VEMSEE SN-3002 传感器</h4>
+        <p>7 合 1 土壤探头:EC、温度、湿度、pH、NPK (经验式)、盐度、TDS。ModBus RS485 协议。约 50 美元。</p>
+        <p style="margin-top:10px"><a href="https://fr.made-in-china.com/co_rainbowsensor/product_All-in-One-Soil-Sensor-NPK-pH-Ec-Sensor-for-Agriculture-Monitoring_uoynuyhrey.html" target="_blank" rel="noopener" class="btn">查看传感器 ↗</a></p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📚</span>
+        <h4>PINN 资源</h4>
+        <p>了解物理信息神经网络、其理论基础和工业应用。</p>
+        <p style="margin-top:10px"><a href="https://www.mathworks.com/discovery/physics-informed-neural-networks.html" target="_blank" rel="noopener" class="btn amber">MathWorks 资源 ↗</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 10. LIMITES ASSUMÉES ===== -->
+<div class="section">
+  <span class="section-num red" data-lang="fr">10 — Limites assumées</span>
+  <span class="section-num red" data-lang="en">10 — Acknowledged limitations</span>
+  <span class="section-num red" data-lang="zh">10 — 承认的局限</span>
+
+  <h2 data-lang="fr">Ce que TerraTrust AI ne fait pas (et ne prétend pas faire)</h2>
+  <h2 data-lang="en">What TerraTrust AI does not do (and does not claim to do)</h2>
+  <h2 data-lang="zh">TerraTrust AI 不做的事情(也不声称做的事情)</h2>
+
+  <div data-lang="fr">
+    <p>L'honnêteté scientifique impose de dire clairement ce que nos simulations ne prouvent pas et ce qui reste à valider expérimentalement. Cette section n'est pas une faiblesse — c'est ce qui rend les promesses précédentes solides.</p>
+
+    <div class="callout red">
+      <h4>⚠️ Limite mathématique fondamentale</h4>
+      <p>La loi de Kohlrausch relie 1 mesure (EC) à 3 inconnues (N, P, K) — c'est mathématiquement sous-déterminé. Une infinité de triplets NPK satisfont la même EC. La contrainte physique ne peut donc pas, à elle seule, garantir l'unicité de la solution. La résolution complète exigerait un capteur multi-ions sélectifs (ISE) ou multi-fréquences — augmentation de coût hardware.</p>
+    </div>
+
+    <div class="callout red">
+      <h4>⚠️ Précision modeste</h4>
+      <p>Notre simulation honnête donne ~±12 mg/kg d'erreur typique sur N et K, plus sur P. Pour des décisions agronomiques grossières (« ajouter de l'engrais ou pas »), c'est utile. Pour de la fertilisation de précision millimétrée, ça ne suffit pas. TerraTrust AI est un outil d'aide à la décision, pas un instrument de mesure.</p>
+    </div>
+
+    <div class="callout red">
+      <h4>⚠️ Pas de validation terrain à ce jour</h4>
+      <p>Toutes nos simulations sont synthétiques. Sur un sol africain réel, avec des variabilités spatiales, des événements climatiques rares, des interactions ioniques complexes, le comportement peut différer. La validation terrain est l'étape suivante — pas encore réalisée.</p>
+    </div>
+
+    <div class="callout red">
+      <h4>⚠️ Les chiffres de rendement viennent de la littérature</h4>
+      <p>Les gains de rendement (+20% selon Ennaji et al. 2025, +40% selon nos infographies anciennes) sont des chiffres issus de simulations agronomiques publiées, pas de mesures TerraTrust AI sur le terrain. À considérer comme des potentiels, pas comme des garanties.</p>
+    </div>
+
+    <div class="callout amber">
+      <h4>🔧 Ce qu'il faudrait pour aller plus loin</h4>
+      <p>(1) Validation terrain sur 1-2 saisons avec dataset NPK + EC parallèles. (2) Test multi-sites pour vérifier la généralisation. (3) Capteurs multi-ions (ISE) pour lever la sous-détermination mathématique. (4) Étude économique réelle sur les coûts d'analyses labo économisées. (5) Calibration locale des conductivités molaires λ selon le type de sol.</p>
+    </div>
+  </div>
+
+  <div data-lang="en">
+    <p>Scientific honesty requires clearly stating what our simulations do not prove and what remains to be experimentally validated. This section is not a weakness — it's what makes the previous promises solid.</p>
+
+    <div class="callout red">
+      <h4>⚠️ Fundamental mathematical limit</h4>
+      <p>Kohlrausch's law relates 1 measurement (EC) to 3 unknowns (N, P, K) — it's mathematically under-determined. Infinite NPK triplets satisfy the same EC. The physical constraint alone cannot guarantee solution uniqueness. Complete resolution would require ion-selective electrode (ISE) or multi-frequency sensors — increased hardware cost.</p>
+    </div>
+
+    <div class="callout red">
+      <h4>⚠️ Modest precision</h4>
+      <p>Our honest simulation gives ~±12 mg/kg typical error on N and K, more on P. For coarse agronomic decisions ("add fertilizer or not"), it's useful. For millimeter-precision fertilization, it's not enough. TerraTrust AI is a decision-support tool, not a measurement instrument.</p>
+    </div>
+
+    <div class="callout red">
+      <h4>⚠️ No field validation to date</h4>
+      <p>All our simulations are synthetic. On real African soil, with spatial variability, rare climate events, complex ionic interactions, behavior may differ. Field validation is the next step — not yet performed.</p>
+    </div>
+
+    <div class="callout red">
+      <h4>⚠️ Yield numbers come from literature</h4>
+      <p>Yield gains (+20% per Ennaji et al. 2025, +40% in our older infographics) are figures from published agronomic simulations, not from TerraTrust AI field measurements. Consider them potentials, not guarantees.</p>
+    </div>
+
+    <div class="callout amber">
+      <h4>🔧 What's needed to go further</h4>
+      <p>(1) 1-2 season field validation with parallel NPK + EC datasets. (2) Multi-site testing for generalization. (3) Multi-ion (ISE) sensors to lift mathematical under-determination. (4) Real economic study on saved lab analysis costs. (5) Local calibration of molar conductivities λ by soil type.</p>
+    </div>
+  </div>
+
+  <div data-lang="zh">
+    <p>科学诚实要求清楚说明我们的仿真未证明的内容,以及尚待实验验证的内容。本节不是弱点——它使之前的承诺变得坚实。</p>
+
+    <div class="callout red">
+      <h4>⚠️ 基本数学限制</h4>
+      <p>科尔劳施定律将 1 个测量值 (EC) 与 3 个未知数 (N、P、K) 联系起来 — 这在数学上是欠定的。无限的 NPK 三元组满足相同的 EC。仅物理约束无法保证解的唯一性。完整的解决方案需要离子选择电极 (ISE) 或多频传感器 — 硬件成本增加。</p>
+    </div>
+
+    <div class="callout red">
+      <h4>⚠️ 精度适中</h4>
+      <p>我们的诚实仿真在 N 和 K 上给出 ~±12 mg/kg 的典型误差,P 更高。对于粗略的农艺决策(「是否添加肥料」),它很有用。对于毫米精度的施肥,这还不够。TerraTrust AI 是决策支持工具,而不是测量仪器。</p>
+    </div>
+
+    <div class="callout red">
+      <h4>⚠️ 迄今为止没有田间验证</h4>
+      <p>我们所有的仿真都是合成的。在真实的非洲土壤上,有空间变化、罕见的气候事件、复杂的离子相互作用,行为可能会有所不同。田间验证是下一步——尚未进行。</p>
+    </div>
+
+    <div class="callout red">
+      <h4>⚠️ 产量数字来自文献</h4>
+      <p>产量增益 (Ennaji 等人 2025 年 +20%,我们旧信息图中 +40%) 是来自已发表农艺仿真的数字,而不是来自 TerraTrust AI 田间测量。视为潜力,而不是保证。</p>
+    </div>
+
+    <div class="callout amber">
+      <h4>🔧 进一步发展所需的内容</h4>
+      <p>(1) 1-2 个季节的田间验证,带有平行 NPK + EC 数据集。(2) 多地点测试以进行泛化。(3) 多离子 (ISE) 传感器以解除数学欠定。(4) 关于节省实验室分析成本的真实经济研究。(5) 按土壤类型对摩尔电导率 λ 进行本地校准。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 11. CONCLUSION ===== -->
+<div class="section">
+  <span class="section-num green" data-lang="fr">11 — Conclusion</span>
+  <span class="section-num green" data-lang="en">11 — Conclusion</span>
+  <span class="section-num green" data-lang="zh">11 — 结论</span>
+
+  <h2 data-lang="fr">Un outil de confiance, pas un oracle</h2>
+  <h2 data-lang="en">A trust tool, not an oracle</h2>
+  <h2 data-lang="zh">信任工具,而非神谕</h2>
+
+  <div data-lang="fr">
+    <p class="lead">TerraTrust AI ne promet pas de remplacer le laboratoire. Il promet quelque chose de plus modeste mais de plus tenable : <strong>donner à l'agriculteur africain une estimation continue NPK entre deux analyses, et l'avertir quand le système perd confiance</strong>. C'est suffisant pour transformer la fertilisation aveugle en décision informée, tout en restant honnête sur ce que la science peut et ne peut pas promettre.</p>
+
+    <p class="lead">Sur l'ESP32-S3 embarqué : prédiction NPK toutes les 5 minutes + détection d'incertitude + alerte recalibrage. Sans internet. Sans dépendance cloud. Sans surpromesse. Pour 120 USD de matériel et le retour sur investissement d'une seule saison.</p>
+  </div>
+
+  <div data-lang="en">
+    <p class="lead">TerraTrust AI does not promise to replace the laboratory. It promises something more modest but more sustainable: <strong>giving the African farmer continuous NPK estimation between two analyses, and warning when the system loses confidence</strong>. This is enough to turn blind fertilization into informed decision, while staying honest about what science can and cannot promise.</p>
+
+    <p class="lead">On the embedded ESP32-S3: NPK prediction every 5 minutes + uncertainty detection + recalibration alert. No internet. No cloud dependency. No over-promise. For $120 in hardware and a single-season ROI.</p>
+  </div>
+
+  <div data-lang="zh">
+    <p class="lead">TerraTrust AI 不承诺取代实验室。它承诺更适度但更可持续的东西:<strong>为非洲农民提供两次分析之间的连续 NPK 估算,并在系统失去信心时发出警告</strong>。这足以将盲目施肥转变为知情决策,同时对科学能够承诺什么和不能承诺什么保持诚实。</p>
+
+    <p class="lead">在嵌入式 ESP32-S3 上:每 5 分钟一次 NPK 预测 + 不确定性检测 + 重新校准警报。没有互联网。没有云依赖。没有过度承诺。120 美元的硬件,一个赛季的投资回报。</p>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <h3 data-lang="fr">TerraTrust AI — Projet TERRA AI</h3>
+  <h3 data-lang="en">TerraTrust AI — TERRA AI Project</h3>
+  <h3 data-lang="zh">TerraTrust AI — TERRA AI 项目</h3>
+
+  <p data-lang="fr">Smart Agriculture AI-Data-Driven pour l'Afrique<br>Présenté par Kennedy Kitoko — Projet de classe IA & Simulation Science, 21 mai 2026</p>
+  <p data-lang="en">Smart Agriculture AI-Data-Driven for Africa<br>Presented by Kennedy Kitoko — AI & Simulation Science class project, May 21, 2026</p>
+  <p data-lang="zh">为非洲设计的智能农业 AI 数据驱动<br>由 Kennedy Kitoko 提交 — 人工智能与仿真科学课程项目,2026 年 5 月 21 日</p>
+
+  <div class="social">
+    <a href="https://x.com/kennedykitoko13" target="_blank" rel="noopener">𝕏 @kennedykitoko13</a>
+  </div>
+
+  <p class="small" data-lang="fr">Cette page présente honnêtement les forces, les limites et l'état actuel d'un projet de classe. Les chiffres de rendement viennent de la littérature publiée. La validation terrain reste à réaliser. Pour toute discussion technique ou collaboration : @kennedykitoko13 sur X.</p>
+  <p class="small" data-lang="en">This page honestly presents the strengths, limits, and current state of a class project. Yield figures come from published literature. Field validation remains to be performed. For technical discussion or collaboration: @kennedykitoko13 on X.</p>
+  <p class="small" data-lang="zh">本页诚实地展示了课程项目的优势、局限和当前状态。产量数字来自已发表的文献。田间验证有待完成。如需技术讨论或合作:在 X 上 @kennedykitoko13。</p>
+</footer>
+
+<script>
+// Language switcher — robust JS-driven visibility
+const langBtns = document.querySelectorAll('[data-lang-btn]');
+const body = document.body;
+
+function setLanguage(lang){
+  // Toggle active class on language elements
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    if(el.getAttribute('data-lang') === lang){
+      el.classList.add('lang-active');
+    } else {
+      el.classList.remove('lang-active');
+    }
+  });
+  // Update body lang attr and class
+  body.classList.remove('en','zh','fr');
+  body.classList.add(lang);
+  body.setAttribute('lang', lang);
+  document.documentElement.setAttribute('lang', lang);
+  // Update active button
+  langBtns.forEach(b => {
+    b.classList.toggle('active', b.dataset.langBtn === lang);
+  });
+}
+
+langBtns.forEach(btn => {
+  btn.addEventListener('click', () => setLanguage(btn.dataset.langBtn));
+});
+
+// Initialize with French
+setLanguage('fr');
+</script>
+
+</body>
+</html>
